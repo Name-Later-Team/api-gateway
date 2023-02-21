@@ -1,12 +1,21 @@
 http:
-  port: 8080
+  port: ${PORT:-3000}
+  host: ${HOST:-localhost}
+
 admin:
   port: 9876
   host: localhost
+
 apiEndpoints:
-  # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/apiEndpoints
+  presentationAPI:
+    host: ${HOST:-localhost}
+    paths: '/presentation/*'
+    methods: 'GET,POST,PUT,PATCH,DELETE'
+
 serviceEndpoints:
-  # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/serviceEndpoints
+  presentationService:
+    url: ${PRESENTATION_SERVICE_URL:-http://localhost:3001/}
+
 policies:
   - basic-auth
   - cors
@@ -16,5 +25,20 @@ policies:
   - oauth2
   - proxy
   - rate-limit
+
 pipelines:
-  # see: https://www.express-gateway.io/docs/configuration/gateway.config.yml/pipelines
+  presentation:
+    apiEndpoints:
+      - presentationAPI
+    policies:
+      - log:
+        - action:
+            message: '${req.method} ${req.originalUrl}'
+      - proxy:
+        - action:
+            serviceEndpoint: presentationService
+            changeOrigin: true
+            # /presentation/ping => http://localhost:3001/ping
+            prependPath: true
+            ignorePath: false
+            stripPath: true

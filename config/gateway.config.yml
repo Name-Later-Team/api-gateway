@@ -8,7 +8,7 @@ admin:
 
 apiEndpoints:
   presentationAPI:
-    host: ${HOST:-localhost}
+    host: '*'
     paths: '/presentation/*'
     methods: 'GET,POST,PUT,PATCH,DELETE'
 

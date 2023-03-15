@@ -7,33 +7,51 @@ admin:
   host: localhost
 
 apiEndpoints:
-  presentationAPI:
+  all:
+    host: "*"
+    paths: "*"
+  presentationAPIV1:
     host: '*'
-    paths: '/presentation/*'
+    paths: ['/presentation/v1', '/presentation/v1/*']
     methods: 'GET,POST,PUT,PATCH,DELETE'
 
 serviceEndpoints:
   presentationService:
-    url: ${PRESENTATION_SERVICE_URL:-http://localhost:3001/}
+    urls:
+      - ${PRESENTATION_SERVICE_URL:-http://localhost:3001}
 
 policies:
-  - basic-auth
-  - cors
-  - expression
-  - key-auth
-  - log
-  - oauth2
+  - request-transformer
+  - response-transformer
   - proxy
-  - rate-limit
+  - introspection
+  - scope
+  - request-logger
 
 pipelines:
+  logRequest:
+    apiEndpoints:
+      - all
+
+    policies:
+      - request-logger:
+        # - action:
+      - response-transformer:
+        - action:
+            headers:
+              add:
+                X-Powered-By: "'Name Later Cloud Gateway'"
   presentation:
     apiEndpoints:
-      - presentationAPI
+      - presentationAPIV1
     policies:
-      - log:
+      - introspection:
         - action:
-            message: '${req.method} ${req.originalUrl}'
+            requestTimeHeader: 'X-Request-Time'
+            serviceSlug: 'X-Service-Slug'
+      - scope:
+        - action:
+            scope: ${PRESENTATION_SERVICE_SCOPE}
       - proxy:
         - action:
             serviceEndpoint: presentationService

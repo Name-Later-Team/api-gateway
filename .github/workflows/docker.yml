@@ -1,0 +1,66 @@
+name: Publish docker image to docker registry
+run-name: ${{ github.actor }} is building and publishing docker image
+
+on: workflow_dispatch
+#   push:
+#     branches:
+#       - master
+#   workflow_dispatch:
+
+env:
+  USER_NAMESPACE: group1sechcmus
+  IMAGE_NAME: api-gateway
+  TAGS: latest
+  SERVICE_NAME: api-gateway
+
+jobs:
+  test:
+    name: Build and test source code
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+#       - run: npm test --if-present
+
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-22.04
+    needs: test
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4.3.0
+        with:
+          images: ${{ env.USER_NAMESPACE }}/${{ env.IMAGE_NAME }}
+          tags: ${{ env.TAGS }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@1.9.0
+        with:
+          context: .
+          push: true
+          image_name: ${{ env.IMAGE_NAME }}
+          tags: ${{ env.TAGS }}
+
+#   load_from_registry:
+#     name: Load image from docker registry and run container from it.
+#     runs-on: ubuntu-22.04
+#     needs: [test, push_to_registry]
+#     steps:
+#       - run: docker pull ${{ env.USER_NAMESPACE}}/${{ env.IMAGE_NAME }}
+#       - run: docker-compose up -d ${{ env.SERVICE_NAME }}
+#       - run: docker-compose logs -f --tail=200 ${{ env.SERVICE_NAME }}

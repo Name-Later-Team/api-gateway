@@ -53,7 +53,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           
 #   load_from_registry:
 #     name: Load image from docker registry and run container from it.

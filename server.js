@@ -1,6 +1,7 @@
-const path = require('path');
-const gateway = require('express-gateway');
+const path = require("path");
+const gateway = require("express-gateway");
+const dotenv = require("dotenv");
 
-gateway()
-  .load(path.join(__dirname, 'config'))
-  .run();
+dotenv.config();
+
+gateway().load(path.join(__dirname, "config")).run();

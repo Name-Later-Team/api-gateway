@@ -7,11 +7,11 @@ on: workflow_dispatch
 #       - master
 #   workflow_dispatch:
 
-env:
-  USER_NAMESPACE: group1sechcmus
-  IMAGE_NAME: api-gateway
-  TAGS: latest
-  SERVICE_NAME: api-gateway
+# env:
+#   USER_NAMESPACE: group1sechcmus
+#   IMAGE_NAME: api-gateway
+#   TAGS: latest
+#   SERVICE_NAME: api-gateway
 
 jobs:
   test:
@@ -45,15 +45,15 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.USER_NAMESPACE }}/${{ env.IMAGE_NAME }}
-          tags: ${{ env.TAGS }}
+          images: group1sechcmus/api-gateway
+          tags: latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: ${{ env.TAGS }}
+          tags: latest
           
 #   load_from_registry:
 #     name: Load image from docker registry and run container from it.

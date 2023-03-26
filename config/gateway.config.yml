@@ -12,7 +12,7 @@ apiEndpoints:
     paths: "*"
   presentationAPIV1:
     host: '*'
-    paths: ['/presentation/v1', '/presentation/v1/*']
+    paths: ['/presentation', '/presentation/*']
     methods: 'GET,POST,PUT,PATCH,DELETE'
 
 serviceEndpoints:
@@ -27,6 +27,7 @@ policies:
   - introspection
   - scope
   - request-logger
+  - introspection-v2
 
 pipelines:
   logRequest:
@@ -45,10 +46,11 @@ pipelines:
     apiEndpoints:
       - presentationAPIV1
     policies:
-      - introspection:
-        - action:
-            requestTimeHeader: 'X-Request-Time'
-            serviceSlug: 'X-Service-Slug'
+      # - introspection:
+      #   - action:
+      #       requestTimeHeader: 'X-Request-Time'
+      #       serviceSlug: 'X-Service-Slug'
+      - introspection-v2:
       - scope:
         - action:
             scope: ${PRESENTATION_SERVICE_SCOPE}

@@ -8,6 +8,7 @@ const APP_CONFIG = {
 		baseUrl: process.env.AUTHZ_URL,
 		endpoints: {
 			introspect: process.env.AUTHZ_ENDPOINT_INTROSPECT,
+			userinfo: process.env.AUTHZ_ENDPOINT_USERINFO,
 		},
 	},
 

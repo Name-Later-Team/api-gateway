@@ -10,10 +10,14 @@ apiEndpoints:
   all:
     host: "*"
     paths: "*"
-  presentationAPIV1:
-    host: '*'
-    paths: ['/presentation', '/presentation/*']
-    methods: 'GET,POST,PUT,PATCH,DELETE'
+  # audienceAPIV1:
+  #   host: '*'
+  #   paths: ['/presentation/v1/audience', '/presentation/v1/audience/*']
+  #   methods: 'GET,POST,PUT,PATCH,DELETE'
+  # presentationAPIV1:
+  #   host: '*'
+  #   paths: ['/presentation', '/presentation/*']
+  #   methods: 'GET,POST,PUT,PATCH,DELETE'
 
 serviceEndpoints:
   presentationService:
@@ -28,6 +32,8 @@ policies:
   - scope
   - request-logger
   - introspection-v2
+  - rsa-signature-validation
+  - body-parser
 
 pipelines:
   logRequest:
@@ -36,29 +42,36 @@ pipelines:
 
     policies:
       - request-logger:
-        # - action:
       - response-transformer:
         - action:
             headers:
               add:
                 X-Powered-By: "'Name Later Cloud Gateway'"
-  presentation:
-    apiEndpoints:
-      - presentationAPIV1
-    policies:
-      # - introspection:
-      #   - action:
-      #       requestTimeHeader: 'X-Request-Time'
-      #       serviceSlug: 'X-Service-Slug'
-      - introspection-v2:
-      - scope:
-        - action:
-            scope: ${PRESENTATION_SERVICE_SCOPE}
-      - proxy:
-        - action:
-            serviceEndpoint: presentationService
-            changeOrigin: true
-            # /presentation/ping => http://localhost:3001/ping
-            prependPath: true
-            ignorePath: false
-            stripPath: true
+  # audience:
+  #   apiEndpoints:
+  #     - audienceAPIV1
+  #   policies:
+  #     - body-parser:
+  #     - rsa-signature-validation:
+  #     - proxy:
+  #       - action:
+  #           serviceEndpoint: presentationService
+  #           changeOrigin: true
+  #           prependPath: true
+  #           ignorePath: false
+  #           stripPath: true
+  # presentation:
+  #   apiEndpoints:
+  #     - presentationAPIV1
+  #   policies:
+  #     - introspection-v2:
+  #     - scope:
+  #       - action:
+  #           scope: ${PRESENTATION_SERVICE_SCOPE}
+  #     - proxy:
+  #       - action:
+  #           serviceEndpoint: presentationService
+  #           changeOrigin: true
+  #           prependPath: true
+  #           ignorePath: false
+  #           stripPath: true

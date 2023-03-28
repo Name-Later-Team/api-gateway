@@ -1,5 +1,6 @@
 const introspectPolicy = require("./policies/introspection");
 const introspectionV2 = require("./policies/introspection-v2");
+const rsaSignatureValidation = require("./policies/rsa-signature-validation");
 const scopePolicy = require("./policies/scope");
 
 module.exports = {
@@ -11,6 +12,7 @@ module.exports = {
 		pluginContext.registerPolicy(introspectPolicy);
 		pluginContext.registerPolicy(scopePolicy);
 		pluginContext.registerPolicy(introspectionV2);
+		pluginContext.registerPolicy(rsaSignatureValidation);
 	},
-	policies: ["introspection", "scope", "introspection-v2"],
+	policies: ["introspection", "scope", "introspection-v2", "rsa-signature-validation"],
 };

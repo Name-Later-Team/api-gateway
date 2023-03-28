@@ -9,6 +9,8 @@ plugins:
     package: './plugins/auth/manifest.js'
   logger:
     package: './plugins/logger/manifest.js'
+  parser:
+    package: './plugins/parser/manifest.js'
 
 crypto:
   cipherKey: sensitiveKey

@@ -19,4 +19,18 @@ const APP_CONFIG = {
 	presentoClientSecret: process.env.PRESENTO_CLIENT_SECRET,
 };
 
-module.exports = { APP_CONFIG };
+const SERVICE_CONFIG_FACTORY = {
+	presenti: {
+		clientId: process.env.PRESENTI_CLIENT_ID,
+		clientSecret: process.env.PRESENTI_CLIENT_SECRET,
+		rsaPublicKey: process.env.PRESENTI_PUBLIC_KEY,
+	},
+	presento: {
+		clientId: process.env.PRESENTO_CLIENT_ID,
+		clientSecret: process.env.PRESENTO_CLIENT_SECRET,
+		rsaPrivateKey: process.env.PRESENTO_PRIVATE_KEY,
+		rsaPassphrase: process.env.PRESENTO_PASSPHRASE,
+	},
+};
+
+module.exports = { APP_CONFIG, SERVICE_CONFIG_FACTORY };

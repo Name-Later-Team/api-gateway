@@ -14,8 +14,10 @@ module.exports = {
 	},
 	policy: () => {
 		return (req, res, next) => {
-			Logger.info("RSA Policy - Checking...");
+			Logger.info("RSA Policy - Starting Authentication...");
+
 			try {
+				// Get request header information
 				const requestTime = req.header("Request-Time");
 				const clientId = req.header("Client-Id");
 				const xAuthorization = req.header("Signature");
@@ -29,8 +31,9 @@ module.exports = {
 					throw new Error("Service slug or client id is incorrect");
 				}
 
-				// re.body is a raw Buffer -> must be converted to string
+				// req.body is a raw Buffer -> must be converted to string
 				const payload = httpMethod !== "GET" ? req.body.toString() : undefined;
+
 				const verifySetting = {
 					publicKey: config.rsaPublicKey,
 					payload,
@@ -42,9 +45,11 @@ module.exports = {
 					throw new Error("Invalid signature");
 				}
 
+				Logger.info("RSA Policy - Authentication Completed...");
+
 				next();
 			} catch (error) {
-				Logger.error("RSA Policy - Failed");
+				Logger.error("RSA Policy - Authenication Failed");
 				Logger.error(error.message || error);
 
 				res.status(401).json({

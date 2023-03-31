@@ -25,15 +25,16 @@ serviceEndpoints:
       - ${PRESENTATION_SERVICE_URL:-http://localhost:3001}
 
 policies:
-  - request-transformer
   - response-transformer
   - proxy
-  - introspection
   - scope
   - request-logger
   - introspection-v2
   - rsa-signature-validation
+  - rsa-signature-signer
   - body-parser
+  - header-verification
+  - expression
 
 pipelines:
   logRequest:
@@ -42,24 +43,30 @@ pipelines:
 
     policies:
       - request-logger:
+      - header-verification:
       - response-transformer:
         - action:
             headers:
               add:
                 X-Powered-By: "'Name Later Cloud Gateway'"
+
   # audience:
   #   apiEndpoints:
   #     - audienceAPIV1
   #   policies:
   #     - body-parser:
   #     - rsa-signature-validation:
+  #     - rsa-signature-signer:
+  #     - expression:
+  #       - action:
+  #           jscode: 'req.url = req.url.replace(/^\/presentation/, "")'
   #     - proxy:
   #       - action:
   #           serviceEndpoint: presentationService
   #           changeOrigin: true
   #           prependPath: true
   #           ignorePath: false
-  #           stripPath: true
+  #           stripPath: false
   # presentation:
   #   apiEndpoints:
   #     - presentationAPIV1
@@ -68,6 +75,7 @@ pipelines:
   #     - scope:
   #       - action:
   #           scope: ${PRESENTATION_SERVICE_SCOPE}
+  #     - rsa-signature-signer:
   #     - proxy:
   #       - action:
   #           serviceEndpoint: presentationService

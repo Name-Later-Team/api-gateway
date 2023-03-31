@@ -8,6 +8,8 @@ COPY ./plugins ./plugins
 COPY ./package.json ./
 COPY ./package-lock.json ./
 COPY ./server.js ./
+COPY ./.npmrc ./
+COPY ./.yo-rc.json ./
 
 RUN npm ci
 

@@ -14,7 +14,7 @@ module.exports = {
 	},
 	policy: () => {
 		return (req, res, next) => {
-			Logger.info("RSA Policy - Starting Authentication...");
+			Logger.info("--------- RSA Validation Policy - Starting Authentication");
 
 			try {
 				// Get request header information
@@ -24,6 +24,8 @@ module.exports = {
 				const resourceUri = req.header("Resource-Uri");
 				const httpMethod = req.method;
 				const serviceSlug = req.header("Service-Slug");
+
+				Logger.info(`Validate for service - ${serviceSlug} - ${clientId}`);
 
 				// validate client-id
 				const config = SERVICE_CONFIG_FACTORY[serviceSlug];
@@ -45,11 +47,11 @@ module.exports = {
 					throw new Error("Invalid signature");
 				}
 
-				Logger.info("RSA Policy - Authentication Completed...");
+				Logger.info("--------- RSA Policy - Authentication Completed");
 
 				next();
 			} catch (error) {
-				Logger.error("RSA Policy - Authenication Failed");
+				Logger.error("--------- RSA Policy - Authenication Failed");
 				Logger.error(error.message || error);
 
 				res.status(401).json({

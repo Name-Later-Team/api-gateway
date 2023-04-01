@@ -13,7 +13,7 @@ module.exports = {
 	},
 	policy: () => {
 		return (req, res, next) => {
-			Logger.info("Header Verification Policy - Checking...");
+			Logger.info("--------- Header Verification Policy - Checking");
 
 			try {
 				// Get request header information
@@ -36,9 +36,11 @@ module.exports = {
                     throw new Error("Request resource uri and path are incompatible");
                 }
 
+				Logger.info("--------- Header Verification Policy - Passed");
+
 				next();
 			} catch (error) {
-				Logger.error("Header Verification Policy - Failed");
+				Logger.error("--------- Header Verification Policy - Failed");
 				Logger.error(error.message || error);
 
 				res.status(401).json({

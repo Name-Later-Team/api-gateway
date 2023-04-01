@@ -1,3 +1,6 @@
+const { PassThrough } = require("stream");
+const rawParser = require("express").raw({ type: () => true });
+
 /**
  * @description
  */
@@ -6,5 +9,12 @@ module.exports = {
 	schema: {
 		$id: "http://express-gateway.io/schemas/policies/body-parser.json",
 	},
-	policy: (actionParams) => require("express").raw({ type: () => true }),
+	policy: (actionParams) => {
+		return (req, res, next) => {
+			req.egContext.requestStream = new PassThrough();
+			req.pipe(req.egContext.requestStream);
+
+			return rawParser(req, res, next);
+		};
+	},
 };

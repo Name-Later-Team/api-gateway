@@ -35,14 +35,15 @@ module.exports = {
 				}
 
 				// create signing setting
-				const payload = httpMethod !== "GET" ? req.body : undefined;
+				// body is Buffer
+				const payload = httpMethod !== "GET" ? req.body.toString() : undefined;
 				const replacedResourceUri = resourceUri.replace(`/${serviceName}`, "");
 
 				const signSetting = {
 					privateKey: config.rsaPrivateKey,
 					passphrase: config.rsaPassphrase,
 					payload,
-					headers: { requestTime, httpMethod, clientId: config.clientId, resourceUri: replacedResourceUri },
+					headers: { requestTime, httpMethod, clientId: config.clientId, resourceUri: replacedResourceUri || "/" },
 				};
 
 				const signer = new RsaSigner(signSetting);

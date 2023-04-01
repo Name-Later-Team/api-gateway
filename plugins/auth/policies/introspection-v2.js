@@ -27,11 +27,11 @@ module.exports = {
 			const url = `${APP_CONFIG.authz.baseUrl}${APP_CONFIG.authz.endpoints.userinfo}`;
 
 			try {
-				Logger.info("Introspect Policy v2 - Calling IAM...");
+				Logger.info("--------- Introspect Policy v2 - Calling IAM");
 
 				const response = await axios.get(url, { headers: { Authorization: tokenScheme } });
 
-				Logger.info("Introspect Policy v2 - Obtaining result...");
+
 
 				const data = response.data;
 				// token expired
@@ -51,6 +51,8 @@ module.exports = {
 					scope: tokenPayload["scope"],
 				};
 
+				Logger.info("--------- Introspect Policy v2 - Valid token");
+
 				next();
 			} catch (error) {
 				if (error.response) {
@@ -62,7 +64,7 @@ module.exports = {
 					return;
 				}
 
-				Logger.error("Introspect Policy v2 Error", error);
+				Logger.error("Introspect Policy v2 Error", error.message);
 				return res.status(502).json({
 					code: 502,
 					message: "Bad Gateway",

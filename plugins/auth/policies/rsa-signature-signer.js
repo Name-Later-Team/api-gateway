@@ -15,8 +15,7 @@ module.exports = {
 	},
 	policy: () => {
 		return (req, res, next) => {
-			// TODO: optimize
-			Logger.info("RSA Signer Policy - Signing...");
+			Logger.info("--------- RSA Signer Policy - Signing");
 
 			try {
 				// get information from incoming request
@@ -27,6 +26,8 @@ module.exports = {
 				const path = req.path;
 				// get downstream service's name
 				const serviceName = path.split("/")[1];
+
+				Logger.info(`Signing signature for service - ${serviceName}`);
 
 				// get service config by service name
 				const config = SERVICE_CONFIG_FACTORY[serviceName];

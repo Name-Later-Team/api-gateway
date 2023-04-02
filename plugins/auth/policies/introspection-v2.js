@@ -16,6 +16,7 @@ module.exports = {
 			const token = tokenScheme.split(" ")[1];
 
 			if (!tokenScheme || !tokenScheme.trim() || !token || !token.trim()) {
+				Logger.error("--------- Introspect Policy v2 - Missing token or token scheme");
 				res.status(401).json({
 					code: 401,
 					message: "Unauthorized",
@@ -31,12 +32,10 @@ module.exports = {
 
 				const response = await axios.get(url, { headers: { Authorization: tokenScheme } });
 
-
-
 				const data = response.data;
 				// token expired
 				if (data.status && data.status === "error") {
-					Logger.debug("Introspect Policy v2 - expired token");
+					Logger.error("--------- Introspect Policy v2 - Expired Token");
 					res.status(401).json({
 						code: 401,
 						message: "Unauthorized",
@@ -51,12 +50,12 @@ module.exports = {
 					scope: tokenPayload["scope"],
 				};
 
-				Logger.info("--------- Introspect Policy v2 - Valid token");
+				Logger.info("--------- Introspect Policy v2 - Valid Token");
 
 				next();
 			} catch (error) {
 				if (error.response) {
-					Logger.error("Introspect Policy v2 Error", error.response.data);
+					Logger.error("--------- Introspect Policy v2 Error", error.response.data);
 					res.status(401).json({
 						code: 401,
 						message: "Unauthorized",
@@ -64,7 +63,7 @@ module.exports = {
 					return;
 				}
 
-				Logger.error("Introspect Policy v2 Error", error.message);
+				Logger.error("--------- Introspect Policy v2 Error", error.message);
 				return res.status(502).json({
 					code: 502,
 					message: "Bad Gateway",

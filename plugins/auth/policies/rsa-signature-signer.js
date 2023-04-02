@@ -63,7 +63,7 @@ module.exports = {
 
 				next();
 			} catch (error) {
-				Logger.error("RSA Signer Policy - Failed");
+				Logger.error("--------- RSA Signer Policy - Failed");
 				Logger.error(error.message || error);
 
 				res.status(401).json({

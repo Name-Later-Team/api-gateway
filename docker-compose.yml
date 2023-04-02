@@ -17,6 +17,6 @@ services:
     env_file:
       - .env.production
     ports:
-      - 3000:3000
+      - 9000:9000
     networks:
       - local_network

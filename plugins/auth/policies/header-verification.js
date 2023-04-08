@@ -22,19 +22,19 @@ module.exports = {
 				const resourceUri = req.header("Resource-Uri");
 
 				// Check request time format
-				const timeToCheck = moment(requestTime, "YYYY-MM-DDTHH:mm:ss+0000");
+				const timeToCheck = moment(requestTime, "YYYY-MM-DDTHH:mm:ssZ", true);
 				if (!timeToCheck.isValid()) {
 					throw new Error("Request time format is incorrect");
 				}
 
-                if (!clientId) {
-                    throw new Error("Missing client id");
-                }
+				if (!clientId) {
+					throw new Error("Missing client id");
+				}
 
 				// Check whethe resource uri match req.path or not
-                if (resourceUri !== req.path) {
-                    throw new Error("Request resource uri and path are incompatible");
-                }
+				if (resourceUri !== req.path) {
+					throw new Error("Request resource uri and path are incompatible");
+				}
 
 				Logger.info("--------- Header Verification Policy - Passed");
 
@@ -44,8 +44,8 @@ module.exports = {
 				Logger.error(error.message || error);
 
 				res.status(401).json({
-					code: 401,
-					message: "Unauthorized",
+					code: 4014,
+					message: error.message || undefined,
 				});
 				return;
 			}

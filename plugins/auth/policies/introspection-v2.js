@@ -18,8 +18,8 @@ module.exports = {
 			if (!tokenScheme || !tokenScheme.trim() || !token || !token.trim()) {
 				Logger.error("--------- Introspect Policy v2 - Missing token or token scheme");
 				res.status(401).json({
-					code: 401,
-					message: "Unauthorized",
+					code: 4011,
+					message: "Token is missing or invalid",
 				});
 				return;
 			}
@@ -37,8 +37,8 @@ module.exports = {
 				if (data.status && data.status === "error") {
 					Logger.error("--------- Introspect Policy v2 - Expired Token");
 					res.status(401).json({
-						code: 401,
-						message: "Unauthorized",
+						code: 4011,
+						message: "Token is missing or invalid",
 					});
 					return;
 				}

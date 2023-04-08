@@ -37,7 +37,8 @@ module.exports = {
 
 				// create signing setting
 				// body is Buffer
-				const payload = httpMethod !== "GET" ? req.body.toString() : undefined;
+				const shouldGetBodyMethods = ["POST", "PUT", "PATCH"];
+				const payload = shouldGetBodyMethods.includes(httpMethod) ? req.body.toString() : undefined;
 				const replacedResourceUri = resourceUri.replace(`/${serviceName}`, "");
 
 				const signSetting = {

@@ -40,9 +40,8 @@ module.exports = {
 				Logger.error(`User scope and service scope - ${scope} are incompatible`);
 
 				res.status(403).json({
-					code: 403,
-					message: "Forbidden",
-					data: "The user cannot access service.",
+					code: 4031,
+					message: "The user cannot access service",
 				});
 				return;
 			}

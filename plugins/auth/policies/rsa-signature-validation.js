@@ -34,7 +34,8 @@ module.exports = {
 				}
 
 				// req.body is a raw Buffer -> must be converted to string
-				const payload = httpMethod !== "GET" ? req.body.toString() : undefined;
+				const shouldGetBodyMethods = ["POST", "PUT", "PATCH"];
+				const payload = shouldGetBodyMethods.includes(httpMethod) ? req.body.toString() : undefined;
 
 				const verifySetting = {
 					publicKey: config.rsaPublicKey,
@@ -55,8 +56,8 @@ module.exports = {
 				Logger.error(error.message || error);
 
 				res.status(401).json({
-					code: 401,
-					message: "Unauthorized",
+					code: 4013,
+					message: "Invalid signature",
 				});
 				return;
 			}

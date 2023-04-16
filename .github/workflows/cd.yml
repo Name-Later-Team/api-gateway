@@ -59,6 +59,7 @@ jobs:
       - name: Connect to server and deploy the app
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+          clear
           cd ${{ secrets.SSH_WORKING_DIR }}
           docker pull ${{ env.COMPLETE_IMAGE_NAME }}:${{ vars.DOCKER_IMAGE_TAG }}
           docker compose -f ${{ vars.DOCKER_COMPOSE_FILE }} up -d ${{ secrets.DOCKER_SERVICE_NAME }}

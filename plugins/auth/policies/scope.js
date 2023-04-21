@@ -18,7 +18,7 @@ module.exports = {
 	},
 	policy: (actionParams) => {
 		return (req, res, next) => {
-			Logger.info("Scope Policy - Checking...");
+			Logger.info("--------- Scope Policy - Checking");
 
 			const scope = actionParams.scope;
 
@@ -36,14 +36,17 @@ module.exports = {
 			const userScope = introspectResult.scope || "";
 
 			if (!userScope || !userScope.trim() || !userScope.includes(scope)) {
+				Logger.error("--------- Scope Policy - Failed");
+				Logger.error(`User scope and service scope - ${scope} are incompatible`);
+
 				res.status(403).json({
-					code: 403,
-					message: "Forbidden",
-					data: "The user cannot access service.",
+					code: 4031,
+					message: "The user cannot access service",
 				});
 				return;
 			}
 
+			Logger.info("--------- Scope Policy - Passed");
 			next();
 		};
 	},

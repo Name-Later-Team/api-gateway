@@ -8,11 +8,14 @@ COPY ./plugins ./plugins
 COPY ./package.json ./
 COPY ./package-lock.json ./
 COPY ./server.js ./
+COPY ./.npmrc ./
+COPY ./.yo-rc.json ./
+COPY ./README.md ./
 
 RUN npm ci
 
 LABEL author.name="Le Hoang Anh"
 LABEL author.email="lehoanganh.le2001@gmail.com"
 
-EXPOSE 3000
+EXPOSE 9000
 CMD ["node", "./server.js"]

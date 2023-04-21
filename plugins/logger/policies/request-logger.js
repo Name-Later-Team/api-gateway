@@ -35,6 +35,7 @@ module.exports = {
 				].join(" - ");
 
 				Logger.info(message);
+				Logger.info(`-----------------------------`);
 			});
 			next();
 		};

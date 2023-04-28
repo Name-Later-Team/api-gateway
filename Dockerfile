@@ -12,6 +12,7 @@ COPY ./.npmrc ./
 COPY ./.yo-rc.json ./
 COPY ./README.md ./
 
+# Set env to prune all devDependencies
 ENV NODE_ENV=production
 
 RUN npm ci

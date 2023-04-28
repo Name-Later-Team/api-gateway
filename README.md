@@ -1,4 +1,4 @@
-# API GATEWAY
+# API GATEWAY GUIDE
 
 ## Installation
 1. Create ***.npmrc*** file at root folder

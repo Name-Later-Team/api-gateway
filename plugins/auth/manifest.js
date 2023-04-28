@@ -1,5 +1,4 @@
 const headerVerification = require("./policies/header-verification");
-const introspectPolicy = require("./policies/introspection");
 const introspectionV2 = require("./policies/introspection-v2");
 const rsaSignatureSigner = require("./policies/rsa-signature-signer");
 const rsaSignatureValidation = require("./policies/rsa-signature-validation");
@@ -11,7 +10,6 @@ module.exports = {
 		$id: "https://express-gateway.io/schemas/plugins/auth.json",
 	},
 	init: function (pluginContext) {
-		pluginContext.registerPolicy(introspectPolicy);
 		pluginContext.registerPolicy(scopePolicy);
 		pluginContext.registerPolicy(introspectionV2);
 		pluginContext.registerPolicy(rsaSignatureValidation);
@@ -19,7 +17,6 @@ module.exports = {
 		pluginContext.registerPolicy(headerVerification);
 	},
 	policies: [
-		"introspection",
 		"scope",
 		"introspection-v2",
 		"rsa-signature-validation",

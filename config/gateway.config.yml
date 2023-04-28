@@ -1,5 +1,5 @@
 http:
-  port: ${PORT:-3000}
+  port: ${PORT:-9000}
   host: ${HOST:-localhost}
 
 admin:
@@ -22,7 +22,8 @@ apiEndpoints:
 serviceEndpoints:
   presentationService:
     urls:
-      - ${PRESENTATION_SERVICE_URL:-http://localhost:3001}
+      - ${PRESENTATION_SERVICE_URL01:-http://localhost:5000}
+      - ${PRESENTATION_SERVICE_URL02:-http://localhost:5000}
 
 policies:
   - response-transformer

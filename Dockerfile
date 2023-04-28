@@ -12,6 +12,8 @@ COPY ./.npmrc ./
 COPY ./.yo-rc.json ./
 COPY ./README.md ./
 
+ENV NODE_ENV=production
+
 RUN npm ci
 
 LABEL author.name="Le Hoang Anh"

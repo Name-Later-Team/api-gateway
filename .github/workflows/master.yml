@@ -76,7 +76,7 @@ jobs:
       - name: Connect to EC2 server
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo su - && cd ${{ secrets.SSH_WORKING_DIR }} && chmod +x load_registry.sh && ./load_registry.sh ${{ secrets.DOCKER_SERVICE_NAME }} ${{ secrets.DOCKER_IMAGE_NAME }} ${{ secrets.DOCKER_IMAGE_NAME }} && exit && exit"
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo su - && cd ${{ secrets.SSH_WORKING_DIR }} && docker pull sehcmusgroup1/api-gateway:latest && docker compose up -d api-gateway && exit && exit"
 
       - name: Clean private key
         run: rm private_key

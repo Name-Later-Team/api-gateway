@@ -21,7 +21,8 @@ apiEndpoints:
 
 serviceEndpoints:
   presentationService:
-    urls: ${SERVICE_LOAD_BALANCER_URL:-http://localhost:9001}
+    urls:
+      - ${SERVICE_LOAD_BALANCER_URL:-http://localhost:9001}
 
 policies:
   - response-transformer

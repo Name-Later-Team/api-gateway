@@ -21,9 +21,7 @@ apiEndpoints:
 
 serviceEndpoints:
   presentationService:
-    urls:
-      - ${PRESENTATION_SERVICE_URL01:-http://localhost:5000}
-      - ${PRESENTATION_SERVICE_URL02:-http://localhost:5000}
+    urls: ${SERVICE_LOAD_BALANCER_URL:-http://localhost:9001}
 
 policies:
   - response-transformer
@@ -35,7 +33,6 @@ policies:
   - rsa-signature-signer
   - body-parser
   - header-verification
-  - expression
 
 pipelines:
   logRequest:
@@ -58,9 +55,6 @@ pipelines:
       - body-parser:
       - rsa-signature-validation:
       - rsa-signature-signer:
-      - expression:
-        - action:
-            jscode: 'req.url = req.url.replace(/^\/presentation/, "")'
       - proxy:
         - action:
             serviceEndpoint: presentationService
@@ -68,6 +62,7 @@ pipelines:
             prependPath: true
             ignorePath: false
             stripPath: false
+
   presentation:
     apiEndpoints:
       - presentationAPIV1
@@ -84,4 +79,4 @@ pipelines:
             changeOrigin: true
             prependPath: true
             ignorePath: false
-            stripPath: true
+            stripPath: false

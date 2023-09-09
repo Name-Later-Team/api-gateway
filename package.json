@@ -11,7 +11,7 @@
     "start:dev": "nodemon server.js"
   },
   "dependencies": {
-    "@huyleminh/nodejs-sdk": "^1.0.1",
+    "@huyleminh/nodejs-sdk": "^1.0.2",
     "axios": "^1.3.4",
     "dotenv": "^16.0.3",
     "express-gateway": "^1.16.11",

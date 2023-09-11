@@ -16,8 +16,5 @@ ENV NODE_ENV=production
 
 RUN npm ci
 
-LABEL author.name="Le Hoang Anh"
-LABEL author.email="lehoanganh.le2001@gmail.com"
-
 EXPOSE 9000
 CMD ["node", "./server.js"]

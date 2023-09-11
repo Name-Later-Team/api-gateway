@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: api-gateway
+    name: presento-gateway
     numInstances: 1
     runtime: image
     image:

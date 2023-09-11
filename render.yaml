@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: api-gateway
+    numInstances: 1
+    runtime: image
+    image:
+      url: docker.io/sehcmusgroup1/api-gateway:latest
+    region: singapore
+    plan: free
+    autoDeploy: false
